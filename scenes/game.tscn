@@ -4,15 +4,37 @@
 [ext_resource type="PackedScene" uid="uid://casgcs7q8ujxx" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://b6t4g3t6vw3wi" path="res://scenes/sensor.tscn" id="4_lbhrr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iywne"]
-size = Vector2(63, 233)
+[sub_resource type="GDScript" id="GDScript_o6cfq"]
+script/source = "extends Node
+@onready var sensor = get_node(\"sensor\")
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_sensor_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"player detected\")
+		return
+	print(\"something detected\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lnu2h"]
+size = Vector2(31, 226.5)
 
 [node name="game" type="Node2D" unique_id=1124340912]
+script = SubResource("GDScript_o6cfq")
 
 [node name="Level" parent="." unique_id=1129814917 instance=ExtResource("1_lnu2h")]
 position = Vector2(-348, -207)
 
-[node name="player" parent="." unique_id=1984382929 instance=ExtResource("1_uwrxv")]
+[node name="player" parent="." unique_id=1984382929 groups=["player"] instance=ExtResource("1_uwrxv")]
 position = Vector2(-21.000015, 47.999996)
 speedX = 500.0
 speedY = 500.0
@@ -21,10 +43,12 @@ speedY = 500.0
 position = Vector2(92, 111)
 
 [node name="sensor" parent="." unique_id=1427610958 instance=ExtResource("4_lbhrr")]
-position = Vector2(511, 115)
+position = Vector2(485, 153)
 
 [node name="shape" parent="sensor" index="0" unique_id=1025514991]
-position = Vector2(0.5, -9.5)
-shape = SubResource("RectangleShape2D_iywne")
+position = Vector2(27.5, -47.75)
+shape = SubResource("RectangleShape2D_lnu2h")
+
+[connection signal="body_entered" from="sensor" to="." method="_on_sensor_body_entered"]
 
 [editable path="sensor"]
