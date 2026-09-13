@@ -63,7 +63,6 @@ tile_set = SubResource("TileSet_75qrs")
 
 [node name="player" parent="." unique_id=1984382929 groups=["player"] instance=ExtResource("3_n46q3")]
 position = Vector2(359, 277)
-speedX = 500.0
 speedY = 500.0
 
 [node name="sensor" parent="." unique_id=1427610958 instance=ExtResource("4_kx6l7")]

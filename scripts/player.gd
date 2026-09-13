@@ -1,6 +1,6 @@
 extends CharacterBody2D
-@export var speedX: float = 5
-@export var speedY: float= 5
+@export var speedX: float = 500
+@export var speedY: float= speedX
 
 func _physics_process(_delta: float):
 	var input_vector_X = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
