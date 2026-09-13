@@ -8,3 +8,7 @@ func _physics_process(_delta: float):
 	velocity.x = input_vector_X * speedX
 	velocity.y = input_vector_Y * speedY
 	move_and_slide()
+
+
+func _on_sensor_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
