@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cox3x31uvkpbn" path="res://assets/walls,floors,details/place-tiles.png" id="1_pqqg8"]
 [ext_resource type="Texture2D" uid="uid://5rce2tu8qpqk" path="res://assets/walls,floors,details/place-wall.png" id="2_0srwa"]
 [ext_resource type="PackedScene" uid="uid://casgcs7q8ujxx" path="res://scenes/player.tscn" id="3_0srwa"]
+[ext_resource type="PackedScene" uid="uid://b3snqu5iixtlb" path="res://scenes/back-sensor.tscn" id="4_v5uil"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v5uil"]
 texture = ExtResource("1_pqqg8")
@@ -25,19 +26,106 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_5722l")
 
+[sub_resource type="GDScript" id="GDScript_5722l"]
+script/source = "
+extends Area2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"found player\")
+		call_deferred(\"do_scene_change\")
+	print(body.name)
+	print(body.get_groups())
+func _do_scene_change()->void:
+	get_tree().change_scene_to_file(\"res://levels/level_1.tscn\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75qrs"]
+size = Vector2(20, 187)
+
+[sub_resource type="GDScript" id="GDScript_v5uil"]
+resource_name = "Bad-sensor"
+script/source = "extends Area2D
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"found player\")
+		call_deferred(\"change_scene\",body)
+	print(body.name)
+	print(body.get_groups())
+func change_scene(body:CharacterBody2D)->void:
+	body.wierdness = 5
+	print(\"success on weirdness\")
+	print(body.wierdness)
+	print(body.get_instance_id())
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5uil"]
+size = Vector2(225, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0bc4"]
+size = Vector2(224, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5722l"]
+size = Vector2(40.5, 169)
+
 [node name="level2" type="Node" unique_id=1523851824]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1810002092]
-position = Vector2(323, 180)
-zoom = Vector2(1.5, 1.5)
+position = Vector2(341, 171)
+zoom = Vector2(1.8, 1.8)
 
 [node name="floor" type="TileMapLayer" parent="." unique_id=1854985776]
 tile_map_data = PackedByteArray("AAACAAgAAAAAAAAAAAACAAcAAAAAAAAAAAACAAYAAAAAAAAAAAACAAUAAAAAAAAAAAACAAQAAAAAAAAAAAACAAMAAAAAAAAAAAACAAIAAAAAAAAAAAACAAEAAAAAAAAAAAAHAAUAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAAAAAAAAAAGAAgAAAAAAAAAAAAHAAgAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAKAAgAAAAAAAAAAAALAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAANAAgAAAAAAAAAAAAOAAgAAAAAAAAAAAAPAAgAAAAAAAAAAAAQAAgAAAAAAAAAAAARAAgAAAAAAAAAAAASAAgAAAAAAAAAAAASAAcAAAAAAAAAAAASAAYAAAAAAAAAAAASAAUAAAAAAAAAAAASAAQAAAAAAAAAAAASAAMAAAAAAAAAAAASAAIAAAAAAAAAAAASAAEAAAAAAAAAAAARAAEAAAAAAAAAAAAQAAEAAAAAAAAAAAAPAAEAAAAAAAAAAAAOAAEAAAAAAAAAAAANAAEAAAAAAAAAAAAMAAEAAAAAAAAAAAALAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAJAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAKAAEAAAAAAAAAAAALAAUAAAAAAAAAAAALAAQAAAAAAAAAAAALAAMAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAALAAYAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAQAAAAAAAAAAAAHAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAQAAAAAAAAAAAAKAAcAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAcAAAAAAAAAAAANAAYAAAAAAAAAAAANAAUAAAAAAAAAAAANAAQAAAAAAAAAAAANAAMAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAARAAcAAAAAAAAAAAARAAYAAAAAAAAAAAARAAUAAAAAAAAAAAARAAQAAAAAAAAAAAARAAMAAAAAAAAAAAARAAIAAAAAAAAAAAABAAcAAAAAAAAAAAABAAYAAAAAAAAAAAABAAUAAAAAAAAAAAABAAQAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_75qrs")
 
 [node name="walls" type="TileMapLayer" parent="." unique_id=257913994]
-tile_map_data = PackedByteArray("AAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAAASAAAAAAAAAAAAAAATAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAACAAkAAAAAAAAAAAADAAkAAAAAAAAAAAAEAAkAAAAAAAAAAAAFAAkAAAAAAAAAAAAGAAkAAAAAAAAAAAAHAAkAAAAAAAAAAAAIAAkAAAAAAAAAAAAJAAkAAAAAAAAAAAAKAAkAAAAAAAAAAAALAAkAAAAAAAAAAAAMAAkAAAAAAAAAAAANAAkAAAAAAAAAAAAOAAkAAAAAAAAAAAAPAAkAAAAAAAAAAAAQAAkAAAAAAAAAAAARAAkAAAAAAAAAAAASAAkAAAAAAAAAAAATAAkAAAAAAAAAAAATAAgAAAAAAAAAAAATAAcAAAAAAAAAAAATAAYAAAAAAAAAAAATAAUAAAAAAAAAAAATAAQAAAAAAAAAAAATAAMAAAAAAAAAAAATAAIAAAAAAAAAAAATAAEAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAAASAAAAAAAAAAAAAAATAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAACAAkAAAAAAAAAAAADAAkAAAAAAAAAAAAEAAkAAAAAAAAAAAAFAAkAAAAAAAAAAAAQAAkAAAAAAAAAAAARAAkAAAAAAAAAAAASAAkAAAAAAAAAAAATAAkAAAAAAAAAAAATAAgAAAAAAAAAAAATAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAGAAkAAAAAAAAAAAAOAAkAAAAAAAAAAAAPAAkAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_q0bc4")
 
-[node name="player" parent="." unique_id=1984382929 instance=ExtResource("3_0srwa")]
+[node name="player" parent="." unique_id=1984382929 groups=["player"] instance=ExtResource("3_0srwa")]
 position = Vector2(199, 154)
+
+[node name="Backsensor" parent="." unique_id=2036072899 instance=ExtResource("4_v5uil")]
+position = Vector2(33, 176)
+script = SubResource("GDScript_5722l")
+
+[node name="CollisionShape2D" parent="Backsensor" index="0" unique_id=522003238]
+position = Vector2(12, -15.5)
+shape = SubResource("RectangleShape2D_75qrs")
+
+[node name="bad sensor" type="Area2D" parent="." unique_id=1466923666]
+script = SubResource("GDScript_v5uil")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bad sensor" unique_id=122072910]
+position = Vector2(333.5, 304)
+shape = SubResource("RectangleShape2D_v5uil")
+
+[node name="good sensor" type="Area2D" parent="." unique_id=337766909]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="good sensor" unique_id=345755297]
+position = Vector2(338, 14)
+shape = SubResource("RectangleShape2D_q0bc4")
+debug_color = Color(1, 0.3217291, 0.2793568, 0.41960785)
+
+[node name="neutral sensor" type="Area2D" parent="." unique_id=1504319293]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="neutral sensor" unique_id=725674090]
+position = Vector2(617.25, 164.5)
+shape = SubResource("RectangleShape2D_5722l")
+debug_color = Color(0.6427664, 0.52391213, 5.7756904e-07, 0.41960785)
+
+[connection signal="body_shape_entered" from="Backsensor" to="Backsensor" method="_on_body_shape_entered"]
+[connection signal="body_entered" from="bad sensor" to="bad sensor" method="_on_body_entered"]
+
+[editable path="Backsensor"]
