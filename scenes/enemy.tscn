@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://gbgmc8mxfeg5"]
+
+[ext_resource type="Texture2D" uid="uid://cvgff7wfiju0v" path="res://assets/walls,floors,details/place-enemy.png" id="1_7p1mj"]
+
+[sub_resource type="GDScript" id="GDScript_4pxsk"]
+script/source = "extends CharacterBody2D
+enum State{PATROL,CHARGE,ATTACK}
+var state = State.PATROL
+@export var patrol_speed:float =40.00
+@export var charge_speed:float = 180.00
+@export var patrol_points: Array[Vector2]=[]
+var patrol_index: int = 0
+var start_pos: Vector2
+var player: Node2D = null
+func _ready():
+	start_pos = global_position
+func _physics_process(delta):
+	match state:
+		State.PATROL:
+			_patrol(delta)
+		State.CHARGE:
+			_charge(delta)
+		State.ATTACK:
+			pass
+func _patrol(delta):
+	if patrol_points.is_empty():
+		return
+	var target = start_pos + patrol_points[patrol_index]
+	if abs(global_position.x - target.x) > 2.0:
+		velocity = Vector2(sign(target.x - global_position.x)* patrol_speed,0)
+	elif abs(global_position.y - target.y) > 2.0:
+		velocity = Vector2(0,sign(target.y - global_position.y) * patrol_speed)
+	else:
+		patrol_index = (patrol_index + 1) % patrol_points.size()
+		velocity = Vector2.ZERO
+	move_and_slide()
+func _charge(delta):
+	if player == null:
+		state = State.PATROL
+		return
+	var direction = player.global_position - global_position
+	if direction.length() > 20.00:
+		velocity = direction.normalized() * charge_speed
+	else:
+		_start_attack()
+	move_and_slide()
+func _start_attack():
+	state = State.ATTACK
+	velocity = Vector2.ZERO
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.name == \"player\":
+		player = body
+		state = State.CHARGE
+
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	pass
+
+
+func _on_deadzone_body_entered(body: Node2D) -> void:
+	if body.name == \"player\":
+		body=player
+		state=State.ATTACK
+	print(\"in deadzone\")
+
+
+
+func _on_deadzone_body_exited(body: Node2D) -> void:
+	pass 
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0bc4"]
+size = Vector2(58, 58)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_75qrs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q0bc4"]
+
+[node name="enemy" type="CharacterBody2D" unique_id=1090873719]
+scale = Vector2(0.5, 0.5)
+script = SubResource("GDScript_4pxsk")
+patrol_speed = 60.0
+patrol_points = Array[Vector2]([Vector2(0, 0)])
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=460351139]
+scale = Vector2(2, 2)
+texture = ExtResource("1_7p1mj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1522263372]
+shape = SubResource("RectangleShape2D_q0bc4")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=2091493971]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1512887070]
+scale = Vector2(24, 24)
+shape = SubResource("CircleShape2D_75qrs")
+
+[node name="DEADZONE" type="Area2D" parent="." unique_id=698906826]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DEADZONE" unique_id=620628478]
+scale = Vector2(6, 6)
+shape = SubResource("CircleShape2D_q0bc4")
+debug_color = Color(0.99999994, 0.0049599702, 0.08488799, 0.41960785)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="DEADZONE" to="." method="_on_deadzone_body_entered"]
+[connection signal="body_exited" from="DEADZONE" to="." method="_on_deadzone_body_exited"]
