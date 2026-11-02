@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://gbgmc8mxfeg5"]
 
 [ext_resource type="Texture2D" uid="uid://cvgff7wfiju0v" path="res://assets/walls,floors,details/place-enemy.png" id="1_7p1mj"]
+[ext_resource type="PackedScene" uid="uid://difqfnagtl5rc" path="res://battle-menu.tscn" id="1_md0e3"]
 
 [sub_resource type="GDScript" id="GDScript_4pxsk"]
 script/source = "extends CharacterBody2D
@@ -9,6 +10,7 @@ var state = State.PATROL
 @export var patrol_speed:float =40.00
 @export var charge_speed:float = 180.00
 @export var patrol_points: Array[Vector2]=[]
+@export var battle_scene: PackedScene
 var patrol_index: int = 0
 var start_pos: Vector2
 var player: Node2D = null
@@ -21,7 +23,7 @@ func _physics_process(delta):
 		State.CHARGE:
 			_charge(delta)
 		State.ATTACK:
-			pass
+			State.ATTACK
 func _patrol(delta):
 	if patrol_points.is_empty():
 		return
@@ -40,18 +42,24 @@ func _charge(delta):
 		return
 	var direction = player.global_position - global_position
 	if direction.length() > 20.00:
-		velocity = direction.normalized() * charge_speed
+		velocity = direction.normalized() * charge_speed*2
 	else:
 		_start_attack()
 	move_and_slide()
 func _start_attack():
+	if state == State.ATTACK:
+		return
 	state = State.ATTACK
 	velocity = Vector2.ZERO
-
+	if battle_scene == null:
+		push_error(\"No battle scene has been assigned\")
+		return
+	get_tree().call_deferred(\"change_scene_to_packed\", battle_scene)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.name == \"player\":
 		player = body
+		
 		state = State.CHARGE
 
 
@@ -63,7 +71,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 func _on_deadzone_body_entered(body: Node2D) -> void:
 	if body.name == \"player\":
 		body=player
-		state=State.ATTACK
+		_start_attack()
 	print(\"in deadzone\")
 
 
@@ -84,6 +92,7 @@ scale = Vector2(0.5, 0.5)
 script = SubResource("GDScript_4pxsk")
 patrol_speed = 60.0
 patrol_points = Array[Vector2]([Vector2(0, 0)])
+battle_scene = ExtResource("1_md0e3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=460351139]
 scale = Vector2(2, 2)

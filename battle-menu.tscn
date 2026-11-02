@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://difqfnagtl5rc"]
+
+[ext_resource type="Texture2D" uid="uid://dem7sc32fc5o3" path="res://assets/walls,floors,details/battle-menu/battle-text-box.png" id="2_14gt5"]
+
+[sub_resource type="GDScript" id="GDScript_2ni0y"]
+resource_name = "Battle1"
+script/source = "extends Control
+@onready var text = get_node(\"Text\")
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	text.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_75qrs"]
+
+[node name="root" type="Control" unique_id=1785730623]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = SubResource("GDScript_2ni0y")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=405057013]
+layout_mode = 0
+offset_right = 1151.0
+offset_bottom = 674.0
+color = Color(0, 0, 0, 1)
+
+[node name="Enemyplace" type="Sprite2D" parent="." unique_id=1680874384]
+position = Vector2(569, 174)
+scale = Vector2(394.5, 240.5)
+texture = SubResource("PlaceholderTexture2D_75qrs")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=34065024]
+layout_mode = 1
+offset_left = 253.0
+offset_top = 323.0
+offset_right = 907.0
+offset_bottom = 501.0
+texture = ExtResource("2_14gt5")
+region_rect = Rect2(16, 22.25, 279, 108)
+patch_margin_left = 3
+patch_margin_top = 40
+patch_margin_right = 3
+patch_margin_bottom = 2
+
+[node name="Text" type="Label" parent="." unique_id=2059056216]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 334.0
+offset_right = 879.0
+offset_bottom = 482.0
+text = "
+"
