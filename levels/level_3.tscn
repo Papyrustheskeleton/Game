@@ -1,0 +1,147 @@
+[gd_scene format=4 uid="uid://c4cpxgql5j4c8"]
+
+[ext_resource type="Texture2D" uid="uid://5rce2tu8qpqk" path="res://assets/walls,floors,details/place-wall.png" id="1_j8bo8"]
+[ext_resource type="Texture2D" uid="uid://cox3x31uvkpbn" path="res://assets/walls,floors,details/place-tiles.png" id="2_1jdk1"]
+[ext_resource type="PackedScene" uid="uid://casgcs7q8ujxx" path="res://scenes/player.tscn" id="3_6p2dc"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7ds5r"]
+texture = ExtResource("2_1jdk1")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_liaj6"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_7ds5r")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b60u5"]
+texture = ExtResource("1_j8bo8")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_kmy7e"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 3
+physics_layer_0/collision_mask = 3
+sources/0 = SubResource("TileSetAtlasSource_b60u5")
+
+[sub_resource type="GDScript" id="GDScript_jvy75"]
+resource_name = "Bad-sensor"
+script/source = "extends Area2D
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"found player\")
+		call_deferred(\"change_scene\",body)
+	print(body.name)
+	print(body.get_groups())
+func change_scene(body:CharacterBody2D)->void:
+	print(\"changed\")
+	
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g0tlw"]
+size = Vector2(225, 14)
+
+[sub_resource type="GDScript" id="GDScript_keufu"]
+script/source = "extends Area2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"changed scene\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_joegk"]
+size = Vector2(224, 14)
+
+[sub_resource type="GDScript" id="GDScript_m8gss"]
+script/source = "extends Area2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group(\"player\"):
+		print(\"changed scene\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wnq0t"]
+size = Vector2(40.5, 169)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75qrs"]
+size = Vector2(20, 160.5)
+
+[node name="Level_3" type="Node" unique_id=1312134933]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1394420248]
+position = Vector2(309.99997, 145)
+scale = Vector2(27.125, 16)
+texture = ExtResource("1_j8bo8")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1554604505]
+position = Vector2(341, 171)
+zoom = Vector2(1.8, 1.8)
+
+[node name="floor" type="TileMapLayer" parent="." unique_id=1934346486]
+tile_map_data = PackedByteArray("AAACAAgAAAAAAAAAAAACAAcAAAAAAAAAAAACAAYAAAAAAAAAAAACAAUAAAAAAAAAAAACAAQAAAAAAAAAAAACAAMAAAAAAAAAAAACAAIAAAAAAAAAAAACAAEAAAAAAAAAAAAHAAUAAAAAAAAAAAADAAgAAAAAAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAAAAAAAAAAGAAgAAAAAAAAAAAAHAAgAAAAAAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAAAAAAAAAAKAAgAAAAAAAAAAAALAAgAAAAAAAAAAAAMAAgAAAAAAAAAAAANAAgAAAAAAAAAAAAOAAgAAAAAAAAAAAAPAAgAAAAAAAAAAAAQAAgAAAAAAAAAAAARAAgAAAAAAAAAAAASAAgAAAAAAAAAAAASAAcAAAAAAAAAAAASAAYAAAAAAAAAAAASAAUAAAAAAAAAAAASAAQAAAAAAAAAAAASAAMAAAAAAAAAAAASAAIAAAAAAAAAAAASAAEAAAAAAAAAAAARAAEAAAAAAAAAAAAQAAEAAAAAAAAAAAAPAAEAAAAAAAAAAAAOAAEAAAAAAAAAAAANAAEAAAAAAAAAAAAMAAEAAAAAAAAAAAALAAEAAAAAAAAAAAAKAAIAAAAAAAAAAAAJAAIAAAAAAAAAAAAIAAIAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAJAAEAAAAAAAAAAAAIAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAGAAEAAAAAAAAAAAAKAAEAAAAAAAAAAAALAAUAAAAAAAAAAAALAAQAAAAAAAAAAAALAAMAAAAAAAAAAAALAAIAAAAAAAAAAAAMAAIAAAAAAAAAAAAMAAMAAAAAAAAAAAAMAAQAAAAAAAAAAAAMAAUAAAAAAAAAAAAMAAYAAAAAAAAAAAALAAYAAAAAAAAAAAAKAAYAAAAAAAAAAAAKAAUAAAAAAAAAAAAKAAQAAAAAAAAAAAAKAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAADAAMAAAAAAAAAAAADAAQAAAAAAAAAAAADAAUAAAAAAAAAAAADAAYAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAEAAYAAAAAAAAAAAAEAAUAAAAAAAAAAAAEAAQAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAAUAAAAAAAAAAAAFAAYAAAAAAAAAAAAFAAcAAAAAAAAAAAAGAAcAAAAAAAAAAAAGAAYAAAAAAAAAAAAGAAUAAAAAAAAAAAAGAAQAAAAAAAAAAAAHAAQAAAAAAAAAAAAIAAQAAAAAAAAAAAAIAAUAAAAAAAAAAAAIAAYAAAAAAAAAAAAHAAYAAAAAAAAAAAAHAAcAAAAAAAAAAAAIAAcAAAAAAAAAAAAJAAcAAAAAAAAAAAAJAAYAAAAAAAAAAAAJAAUAAAAAAAAAAAAJAAQAAAAAAAAAAAAKAAcAAAAAAAAAAAALAAcAAAAAAAAAAAAMAAcAAAAAAAAAAAANAAcAAAAAAAAAAAANAAYAAAAAAAAAAAANAAUAAAAAAAAAAAANAAQAAAAAAAAAAAANAAMAAAAAAAAAAAANAAIAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAOAAQAAAAAAAAAAAAOAAUAAAAAAAAAAAAOAAYAAAAAAAAAAAAOAAcAAAAAAAAAAAAPAAcAAAAAAAAAAAAPAAYAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAIAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAAQAAQAAAAAAAAAAAAQAAUAAAAAAAAAAAAQAAYAAAAAAAAAAAAQAAcAAAAAAAAAAAARAAcAAAAAAAAAAAARAAYAAAAAAAAAAAARAAUAAAAAAAAAAAARAAQAAAAAAAAAAAARAAMAAAAAAAAAAAARAAIAAAAAAAAAAAABAAcAAAAAAAAAAAABAAYAAAAAAAAAAAABAAUAAAAAAAAAAAABAAQAAAAAAAAAAAABAAMAAAAAAAAAAAABAAIAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAATAAIAAAAAAAAAAAATAAMAAAAAAAAAAAATAAQAAAAAAAAAAAATAAUAAAAAAAAAAAATAAYAAAAAAAAAAAATAAcAAAAAAAAAAAANAAkAAAAAAAAAAAAMAAkAAAAAAAAAAAALAAkAAAAAAAAAAAAKAAkAAAAAAAAAAAAJAAkAAAAAAAAAAAAIAAkAAAAAAAAAAAAHAAkAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_liaj6")
+
+[node name="walls" type="TileMapLayer" parent="." unique_id=563227824]
+tile_map_data = PackedByteArray("AAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAAASAAAAAAAAAAAAAAATAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAgAAAAAAAAAAAABAAkAAAAAAAAAAAACAAkAAAAAAAAAAAADAAkAAAAAAAAAAAAEAAkAAAAAAAAAAAAFAAkAAAAAAAAAAAAQAAkAAAAAAAAAAAARAAkAAAAAAAAAAAASAAkAAAAAAAAAAAATAAkAAAAAAAAAAAATAAgAAAAAAAAAAAATAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAGAAkAAAAAAAAAAAAOAAkAAAAAAAAAAAAPAAkAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_kmy7e")
+
+[node name="player" parent="." unique_id=1984382929 groups=["player"] instance=ExtResource("3_6p2dc")]
+position = Vector2(310, 171)
+speedX = 250.0
+speedY = 250.0
+
+[node name="bad sensor" type="Area2D" parent="." unique_id=304199273]
+script = SubResource("GDScript_jvy75")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bad sensor" unique_id=1955074017]
+position = Vector2(333.5, 304)
+shape = SubResource("RectangleShape2D_g0tlw")
+
+[node name="good sensor" type="Area2D" parent="." unique_id=1365787470]
+script = SubResource("GDScript_keufu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="good sensor" unique_id=1085278645]
+position = Vector2(338, 14)
+shape = SubResource("RectangleShape2D_joegk")
+debug_color = Color(1, 0.3217291, 0.2793568, 0.41960785)
+
+[node name="neutral sensor" type="Area2D" parent="." unique_id=1002666723]
+script = SubResource("GDScript_m8gss")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="neutral sensor" unique_id=2035594167]
+position = Vector2(617.25, 164.5)
+shape = SubResource("RectangleShape2D_wnq0t")
+debug_color = Color(0.6427664, 0.52391213, 5.7756904e-07, 0.41960785)
+
+[node name="Back sensor" type="Area2D" parent="neutral sensor" unique_id=134397930]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="neutral sensor/Back sensor" unique_id=1605509355]
+position = Vector2(45, 160)
+shape = SubResource("RectangleShape2D_75qrs")
+
+[connection signal="body_entered" from="bad sensor" to="bad sensor" method="_on_body_entered"]
+[connection signal="body_entered" from="good sensor" to="good sensor" method="_on_body_entered"]
+[connection signal="body_entered" from="neutral sensor" to="neutral sensor" method="_on_body_entered"]
