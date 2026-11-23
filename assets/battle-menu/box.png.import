@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dem7sc32fc5o3"
-path="res://.godot/imported/battle-text-box.png-411d399ce6c4a682b1fd9e6b534db83d.ctex"
+uid="uid://dre1h77r7w4kq"
+path="res://.godot/imported/box.png-097c3532674e48fde8c8d34dfcdf4895.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/walls,floors,details/battle-menu/battle-text-box.png"
-dest_files=["res://.godot/imported/battle-text-box.png-411d399ce6c4a682b1fd9e6b534db83d.ctex"]
+source_file="res://assets/battle-menu/box.png"
+dest_files=["res://.godot/imported/box.png-097c3532674e48fde8c8d34dfcdf4895.ctex"]
 
 [params]
 

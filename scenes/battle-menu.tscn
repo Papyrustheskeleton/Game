@@ -1,27 +1,46 @@
 [gd_scene format=3 uid="uid://difqfnagtl5rc"]
 
-[ext_resource type="Texture2D" uid="uid://dem7sc32fc5o3" path="res://assets/walls,floors,details/battle-menu/battle-text-box.png" id="2_14gt5"]
-[ext_resource type="Texture2D" uid="uid://ckgfs37csdbkm" path="res://assets/walls,floors,details/battle-menu/Fight.png" id="2_u2v8n"]
+[ext_resource type="PackedScene" uid="uid://bcvc806bkr13e" path="res://Attacks/attack_1.tscn" id="1_kvmm0"]
+[ext_resource type="Texture2D" uid="uid://dem7sc32fc5o3" path="res://assets/battle-menu/battle-text-box.png" id="2_14gt5"]
+[ext_resource type="Texture2D" uid="uid://ckgfs37csdbkm" path="res://assets/battle-menu/Fight.png" id="2_u2v8n"]
+[ext_resource type="PackedScene" uid="uid://cm7md55612yi0" path="res://assets/battle-menu/box.tscn" id="3_t500l"]
+[ext_resource type="Texture2D" uid="uid://cnro4u4j0ojx4" path="res://assets/walls,floors,details/place-player.png" id="4_166k1"]
+[ext_resource type="Script" uid="uid://ccxrqaplil0l8" path="res://scripts/battle-movement.gd" id="4_so42n"]
 
 [sub_resource type="GDScript" id="GDScript_2ni0y"]
 resource_name = "Battle1"
 script/source = "extends Control
-@onready var text = get_node(\"Text\")
+@onready var textbox = $TextBox
+@onready var text = $TextBox/Text
 @onready var message = \"ribbit\"
-@onready var selecting = \"fight\"
+@onready var current_turn = 0
+@onready var Fight = $Fight
+@onready var box = $Box
+@onready var enemy = $Enemy
+@onready var player = $Box/player
+@export var attack1 : PackedScene
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	text.text = message
-	text.visible_characters = 0
-	for i in range(message.length()):
-		text.visible_characters +=1
+	if current_turn == 1:
+		box.visible = false
 		await get_tree().create_timer(0.05).timeout
-		
-
+		text.text = message
+		text.visible_characters = 0
+		for i in range(message.length()):
+			text.visible_characters +=1
+	elif current_turn == 0:
+		textbox.visible = false
+		Fight.visible = false
+		enemy.position.y -= 50
+		box.visible = true
+		start_attack()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func start_attack():
+	var center = $Center
+	var attack = attack1.instantiate()
+	attack.position = center.position
+	add_child(attack)
 "
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_75qrs"]
@@ -29,26 +48,22 @@ func _process(delta: float) -> void:
 [sub_resource type="LabelSettings" id="LabelSettings_2ni0y"]
 font_size = 32
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75qrs"]
+size = Vector2(36, 39)
+
 [node name="root" type="Control" unique_id=1785730623]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 script = SubResource("GDScript_2ni0y")
+attack1 = ExtResource("1_kvmm0")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=405057013]
-layout_mode = 0
-offset_left = 13.0
-offset_top = -49.0
-offset_right = 1164.0
-offset_bottom = 625.0
-color = Color(0, 0, 0, 1)
-
-[node name="Enemyplace" type="Sprite2D" parent="." unique_id=1680874384]
+[node name="Enemy" type="Sprite2D" parent="." unique_id=1680874384]
 position = Vector2(569, 174)
 scale = Vector2(394.5, 240.5)
 texture = SubResource("PlaceholderTexture2D_75qrs")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=34065024]
+[node name="TextBox" type="NinePatchRect" parent="." unique_id=34065024]
 layout_mode = 1
 offset_left = 253.0
 offset_top = 323.0
@@ -61,26 +76,52 @@ patch_margin_top = 40
 patch_margin_right = 3
 patch_margin_bottom = 2
 
-[node name="Text" type="Label" parent="." unique_id=2059056216]
+[node name="Text" type="Label" parent="TextBox" unique_id=2059056216]
 layout_mode = 0
-offset_left = 270.0
-offset_top = 334.0
-offset_right = 879.0
-offset_bottom = 482.0
+offset_left = 17.0
+offset_top = 11.0
+offset_right = 626.0
+offset_bottom = 159.0
 text = "
 "
 label_settings = SubResource("LabelSettings_2ni0y")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=2108945890]
+[node name="Fight" type="TextureRect" parent="." unique_id=2108945890]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 485.0
-offset_top = 511.0
-offset_right = 625.0
-offset_bottom = 577.0
+offset_left = 497.0
+offset_top = 506.0
+offset_right = 637.0
+offset_bottom = 572.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_u2v8n")
 stretch_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1256550605]
+z_index = -1
+layout_mode = 0
+offset_right = 1128.0
+offset_bottom = 662.0
+color = Color(0, 0, 0, 1)
+
+[node name="Box" parent="." unique_id=1593955208 instance=ExtResource("3_t500l")]
+position = Vector2(563, 334)
+
+[node name="player" type="CharacterBody2D" parent="Box" unique_id=1584305835]
+script = ExtResource("4_so42n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/player" unique_id=1797716537]
+z_index = 1
+position = Vector2(14, 12.5)
+shape = SubResource("RectangleShape2D_75qrs")
+
+[node name="Sprite2D" type="Sprite2D" parent="Box/player" unique_id=284707353]
+position = Vector2(14, 12.5)
+scale = Vector2(0.5625, 0.609375)
+texture = ExtResource("4_166k1")
+
+[node name="Center" type="Marker2D" parent="." unique_id=1711068142]
+position = Vector2(244, 341)

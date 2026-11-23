@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bcvc806bkr13e"]
+
+[ext_resource type="Script" uid="uid://detptiq0fuy0n" path="res://scripts/attack_1.gd" id="1_x8f2w"]
+[ext_resource type="PackedScene" uid="uid://c5ipgv3iqb186" path="res://scenes/bullet.tscn" id="2_vhqxk"]
+
+[node name="Attack1" type="Node2D" unique_id=1023203470]
+script = ExtResource("1_x8f2w")
+bullet_scene = ExtResource("2_vhqxk")
