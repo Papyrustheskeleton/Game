@@ -3,12 +3,14 @@ extends Node2D
 @export var speedX: float = 500
 @export var speedY: float = 500
 @export var rep: float = 15
+@export var finished: bool = false
+
 
 func _ready() -> void:
 	for i in range(rep):
 		_spawn_bullet()
 		await get_tree().create_timer(1).timeout
-	
+	finished = true
 	
 func _spawn_bullet():
 	var bullet = bullet_scene.instantiate()

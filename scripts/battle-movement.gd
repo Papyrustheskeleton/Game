@@ -1,5 +1,5 @@
 extends CharacterBody2D
-@onready var player = $Box/player
+@onready var player = self
 @onready var speed: float = 400
 @export var movement: bool = true
 

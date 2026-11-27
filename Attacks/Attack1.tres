@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="AttackData" format=3 uid="uid://dy8a6cn5yw3v"]
 
-[ext_resource type="Script" uid="uid://ry0dspip4o7u" path="res://AttackData.gd" id="1_7mihp"]
+[ext_resource type="Script" uid="uid://ry0dspip4o7u" path="res://scripts/AttackData.gd" id="1_7mihp"]
 [ext_resource type="PackedScene" uid="uid://bcvc806bkr13e" path="res://Attacks/attack_1.tscn" id="1_supv6"]
 
 [resource]

@@ -1,82 +1,45 @@
 [gd_scene format=3 uid="uid://cm7md55612yi0"]
 
-[ext_resource type="Texture2D" uid="uid://di73qpxxk7bwr" path="res://assets/battle-menu/horizontal-wall.png" id="1_m3goa"]
-[ext_resource type="Texture2D" uid="uid://cgkqm2ga7n6l3" path="res://assets/battle-menu/verticle-wall.png" id="2_qnijp"]
+[ext_resource type="Texture2D" uid="uid://b14yxegyu8rbr" path="res://assets/battle-menu/Battle-box.png" id="1_hb86m"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xem1t"]
-size = Vector2(29.045527, 22.7948)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75qrs"]
+size = Vector2(297, 20)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ikmbl"]
-size = Vector2(478, 25)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0bc4"]
+size = Vector2(17, 273)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xbp13"]
-size = Vector2(22, 386)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4pxsk"]
+size = Vector2(290, 22)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lw6y6"]
-size = Vector2(27, 361)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_topl6"]
+size = Vector2(20, 304)
 
-[node name="Box" type="Node2D" unique_id=1593955208]
+[node name="Box" type="Node2D" unique_id=274975073]
 
-[node name="Bottom" type="StaticBody2D" parent="." unique_id=1402998927]
-position = Vector2(1, 189)
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=84018906]
 
-[node name="bottomwall" type="TextureRect" parent="Bottom" unique_id=1901696357]
-offset_left = -230.0
-offset_top = -15.9999695
-offset_right = 285.8004
-offset_bottom = 9.0000305
-scale = Vector2(0.9228376, 1.3425068)
-texture = ExtResource("1_m3goa")
-metadata/_edit_use_anchors_ = true
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=185157150]
+position = Vector2(-27.999985, -70.00001)
+scale = Vector2(2.87, 2.95)
+texture = ExtResource("1_hb86m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom" unique_id=1751623170]
-position = Vector2(8.5, 0.034118652)
-scale = Vector2(16.147064, 1.4068215)
-shape = SubResource("RectangleShape2D_xem1t")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1335938604]
+position = Vector2(-7.5, -203)
+shape = SubResource("RectangleShape2D_75qrs")
+debug_color = Color(2.4787337e-06, 0.64685935, 0.2342765, 0.41960785)
 
-[node name="Top" type="StaticBody2D" parent="." unique_id=722026026]
-position = Vector2(19, -191)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1797209543]
+position = Vector2(100.5, -85.5)
+shape = SubResource("RectangleShape2D_q0bc4")
+debug_color = Color(0.9993934, 0, 0.12844995, 0.41960785)
 
-[node name="topwall" type="TextureRect" parent="Top" unique_id=197994424]
-offset_left = -251.0
-offset_top = -12.0
-offset_right = 230.0
-offset_bottom = 13.0
-texture = ExtResource("1_m3goa")
-metadata/_edit_use_anchors_ = true
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" unique_id=944152337]
+position = Vector2(-23, 47)
+shape = SubResource("RectangleShape2D_4pxsk")
+debug_color = Color(0.8581804, 0.000723694, 0.8815771, 0.41960785)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top" unique_id=569873078]
-position = Vector2(-9, 0.5)
-shape = SubResource("RectangleShape2D_ikmbl")
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=612713105]
+position = Vector2(-161, -69)
+shape = SubResource("RectangleShape2D_topl6")
 
-[node name="Right" type="StaticBody2D" parent="." unique_id=762755250]
-position = Vector2(234, 11)
-
-[node name="leftwall2" type="TextureRect" parent="Right" unique_id=88072739]
-offset_left = -13.0
-offset_top = -214.0
-offset_right = 12.0
-offset_bottom = 181.0
-texture = ExtResource("2_qnijp")
-metadata/_edit_use_anchors_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right" unique_id=784824763]
-position = Vector2(-1, -16)
-shape = SubResource("RectangleShape2D_xbp13")
-
-[node name="Left" type="StaticBody2D" parent="." unique_id=1558363374]
-position = Vector2(-216, 38)
-
-[node name="leftwall" type="TextureRect" parent="Left" unique_id=378365466]
-offset_left = -16.0
-offset_top = -220.0
-offset_right = 9.0
-offset_bottom = 143.0
-texture = ExtResource("2_qnijp")
-metadata/_edit_use_anchors_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left" unique_id=1771658639]
-position = Vector2(-3.5, -38.5)
-shape = SubResource("RectangleShape2D_lw6y6")
-
-[node name="Center" type="Marker2D" parent="." unique_id=782534773]
+[node name="Center" type="Marker2D" parent="." unique_id=1003416306]

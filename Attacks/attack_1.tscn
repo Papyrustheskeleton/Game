@@ -6,3 +6,4 @@
 [node name="Attack1" type="Node2D" unique_id=1023203470]
 script = ExtResource("1_x8f2w")
 bullet_scene = ExtResource("2_vhqxk")
+rep = 5.0

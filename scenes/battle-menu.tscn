@@ -1,52 +1,20 @@
 [gd_scene format=3 uid="uid://difqfnagtl5rc"]
 
+[ext_resource type="Script" uid="uid://bnxism864p21d" path="res://scripts/battle1.gd" id="1_cxkfo"]
 [ext_resource type="PackedScene" uid="uid://bcvc806bkr13e" path="res://Attacks/attack_1.tscn" id="1_kvmm0"]
+[ext_resource type="Resource" uid="uid://bev4ufffwrg88" path="res://Resources/Dummy.tres" id="2_4u14q"]
 [ext_resource type="Texture2D" uid="uid://dem7sc32fc5o3" path="res://assets/battle-menu/battle-text-box.png" id="2_14gt5"]
+[ext_resource type="Script" uid="uid://cr4r26oqni8hx" path="res://scripts/enemy1.gd" id="2_450uy"]
 [ext_resource type="Texture2D" uid="uid://ckgfs37csdbkm" path="res://assets/battle-menu/Fight.png" id="2_u2v8n"]
 [ext_resource type="PackedScene" uid="uid://cm7md55612yi0" path="res://assets/battle-menu/box.tscn" id="3_t500l"]
 [ext_resource type="Texture2D" uid="uid://cnro4u4j0ojx4" path="res://assets/walls,floors,details/place-player.png" id="4_166k1"]
 [ext_resource type="Script" uid="uid://ccxrqaplil0l8" path="res://scripts/battle-movement.gd" id="4_so42n"]
-
-[sub_resource type="GDScript" id="GDScript_2ni0y"]
-resource_name = "Battle1"
-script/source = "extends Control
-@onready var textbox = $TextBox
-@onready var text = $TextBox/Text
-@onready var message = \"ribbit\"
-@onready var current_turn = 0
-@onready var Fight = $Fight
-@onready var box = $Box
-@onready var enemy = $Enemy
-@onready var player = $Box/player
-@export var attack1 : PackedScene
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	if current_turn == 1:
-		box.visible = false
-		await get_tree().create_timer(0.05).timeout
-		text.text = message
-		text.visible_characters = 0
-		for i in range(message.length()):
-			text.visible_characters +=1
-	elif current_turn == 0:
-		textbox.visible = false
-		Fight.visible = false
-		enemy.position.y -= 50
-		box.visible = true
-		start_attack()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func start_attack():
-	var center = $Center
-	var attack = attack1.instantiate()
-	attack.position = center.position
-	add_child(attack)
-"
+[ext_resource type="Resource" uid="uid://d0qcj810ec5c0" path="res://Resources/You.tres" id="4_sohax"]
+[ext_resource type="Texture2D" uid="uid://blhvkplm6s6w3" path="res://assets/battle-menu/Dummy-name.png" id="5_4ir6x"]
+[ext_resource type="Texture2D" uid="uid://r0ou5mtik8l" path="res://assets/battle-menu/Fight2.png" id="7_gajry"]
+[ext_resource type="FontFile" uid="uid://bq3dxei5cjns4" path="res://fonts/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" id="7_qtalr"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_75qrs"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_2ni0y"]
-font_size = 32
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_75qrs"]
 size = Vector2(36, 39)
@@ -55,13 +23,29 @@ size = Vector2(36, 39)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
-script = SubResource("GDScript_2ni0y")
+script = ExtResource("1_cxkfo")
+message = "I forgot how to breathe"
 attack1 = ExtResource("1_kvmm0")
+txt_spd = 0.05
+delay = 1.0
+enemydata = ExtResource("2_4u14q")
+player_stats = ExtResource("4_sohax")
+
+[node name="Enemy Health" type="Label" parent="." unique_id=1496092642]
+z_index = 5
+layout_mode = 0
+offset_left = 233.99997
+offset_top = 55.999992
+offset_right = 294.99997
+offset_bottom = 78.99999
+text = "Health: "
 
 [node name="Enemy" type="Sprite2D" parent="." unique_id=1680874384]
 position = Vector2(569, 174)
 scale = Vector2(394.5, 240.5)
 texture = SubResource("PlaceholderTexture2D_75qrs")
+script = ExtResource("2_450uy")
+enemy_data = ExtResource("2_4u14q")
 
 [node name="TextBox" type="NinePatchRect" parent="." unique_id=34065024]
 layout_mode = 1
@@ -76,35 +60,32 @@ patch_margin_top = 40
 patch_margin_right = 3
 patch_margin_bottom = 2
 
-[node name="Text" type="Label" parent="TextBox" unique_id=2059056216]
+[node name="Text" type="Label" parent="TextBox" unique_id=256576384]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 11.0
-offset_right = 626.0
-offset_bottom = 159.0
-text = "
-"
-label_settings = SubResource("LabelSettings_2ni0y")
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 56.0
+offset_bottom = 33.0
+theme_override_fonts/font = ExtResource("7_qtalr")
+theme_override_font_sizes/font_size = 30
 
-[node name="Fight" type="TextureRect" parent="." unique_id=2108945890]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 497.0
-offset_top = 506.0
-offset_right = 637.0
-offset_bottom = 572.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_u2v8n")
-stretch_mode = 2
+[node name="Dummy-name" type="TextureButton" parent="TextBox" unique_id=601574905]
+visible = false
+layout_mode = 0
+offset_left = 18.0
+offset_top = 26.0
+offset_right = 146.0
+offset_bottom = 90.0
+texture_normal = ExtResource("5_4ir6x")
+texture_pressed = ExtResource("5_4ir6x")
+texture_hover = ExtResource("5_4ir6x")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1256550605]
 z_index = -1
 layout_mode = 0
-offset_right = 1128.0
+offset_right = 1197.0
 offset_bottom = 662.0
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Box" parent="." unique_id=1593955208 instance=ExtResource("3_t500l")]
@@ -125,3 +106,15 @@ texture = ExtResource("4_166k1")
 
 [node name="Center" type="Marker2D" parent="." unique_id=1711068142]
 position = Vector2(244, 341)
+
+[node name="Fight" type="TextureButton" parent="." unique_id=1160866363]
+layout_mode = 0
+offset_left = 482.0
+offset_top = 514.0
+offset_right = 620.0
+offset_bottom = 580.0
+texture_normal = ExtResource("2_u2v8n")
+texture_hover = ExtResource("7_gajry")
+
+[connection signal="pressed" from="TextBox/Dummy-name" to="." method="_on_dummyname_pressed"]
+[connection signal="pressed" from="Fight" to="." method="_on_fight_pressed"]
